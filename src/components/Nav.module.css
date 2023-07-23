@@ -1,0 +1,220 @@
+.dummyNav {
+  display: flex;
+  width: 100%;
+  height: var(--navHeight);
+  padding: 0 40px;
+  z-index: -50;
+}
+.nav {
+  display: flex;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0px;
+  width: 100%;
+  max-width: 1000px;
+  height: var(--navHeight);
+  background: darkslategray;
+  align-items: center;
+  padding: 0 40px;
+  z-index: 50;
+}
+
+.logo {
+  height: 35px;
+  margin-right: 10px;
+}
+
+.ul {
+  display: flex;
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+.ul * {
+  text-decoration: none;
+}
+
+.ul li {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  margin: 0 5px;
+  color: white;
+  transition: all 0.5s;
+  border-radius: 8px;
+  width: 100px;
+  white-space: nowrap;
+}
+
+.ul li:hover {
+  cursor: pointer;
+  background: white;
+  color: darkslategray;
+}
+
+.input {
+  width: 200px;
+  height: 38px;
+  margin-left: auto;
+  margin-right: 2px;
+  border-radius: 7px;
+  border: 0px;
+  padding: 0 10px;
+}
+.buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 9px;
+  justify-content: space-evenly;
+}
+
+.buttons * {
+  height: 38px;
+  border-radius: 7px;
+  border: 0px;
+  white-space: nowrap;
+  font-size: 0.7rem;
+}
+.buttons *:hover {
+  cursor: pointer;
+}
+
+.loginBtn {
+  background: darkslategray;
+  color: white;
+  border: 1px solid white;
+  transition: all 0.5s;
+}
+.loginBtn:hover {
+  background: rgb(63, 110, 110);
+}
+.registerBtn {
+  min-width: 45px;
+  background: rgb(255, 202, 44) !important;
+  color: darkslategray;
+  transition: all 0.5s;
+}
+.registerBtn:hover {
+  background: rgb(248, 228, 168) !important;
+}
+
+.hamburger {
+  display: none;
+}
+.menu {
+  display: none;
+}
+.inputX {
+  position: relative;
+  left: -17px;
+  top: -2px;
+}
+.inputX:hover {
+  cursor: pointer;
+}
+@media screen and (max-width: 910px) {
+  .ul {
+    display: none;
+    transition: all 0.5s;
+  }
+  .logo {
+    margin: 0 1px 0 10px;
+  }
+  .hamburger {
+    display: flex;
+    width: 48px;
+    height: 38px;
+    margin: 0 5px;
+    padding: 3px 6px;
+    border-radius: 8px;
+    transition: all 1s;
+  }
+  .hamburger:hover {
+    cursor: pointer;
+  }
+  .hamburger img {
+    filter: invert(100%);
+  }
+  .hamburger.active {
+    background-color: white;
+  }
+  .hamburger.active img {
+    filter: invert(0);
+  }
+  .input {
+    width: 50px;
+    margin-left: 10px;
+    flex-grow: 1;
+  }
+  .nav {
+    padding: 0 0;
+  }
+  .buttons {
+    margin-left: auto;
+    gap: 7px;
+  }
+  .buttons * {
+    font-size: 0.65rem;
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: -400px;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    -webkit-backdrop-filter: blur(7px);
+    backdrop-filter: blur(7px);
+    background-color: rgb(47, 79, 79, 0.6);
+    z-index: 20;
+    transition: all 0.5s;
+  }
+  .menu.active {
+    top: 70px;
+    z-index: 20;
+  }
+  .sideul {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 15px 0 15px 0;
+    gap: 15px;
+  }
+  .sideul * {
+    text-decoration: none;
+  }
+
+  .sideul > a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .sideul li {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 0 5px;
+    color: white;
+    transition: all 0.5s;
+    border-radius: 8px;
+    width: 90%;
+    white-space: nowrap;
+    font-size: 1.3rem;
+  }
+
+  .sideul li:hover {
+    cursor: pointer;
+    background: white;
+    color: darkslategray;
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "data-play-ground",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.14.6",
+    "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.4.0",
+    "gh-pages": "^5.0.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.21",
+    "react": "^18.2.0",
+    "react-daum-postcode": "^3.1.1",
+    "react-dom": "^18.2.0",
+    "react-kakao-maps-sdk": "^1.1.6",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.2",
+    "react-scripts": "5.0.1",
+    "styled-components": "^5.3.8",
+    "styled-jsx": "^5.1.2",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "set PORT=8080 && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "nodemon ../server/server.js",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/react-transition-group": "^4.4.6",
+    "@types/styled-components": "^5.1.26",
+    "typescript": "^4.9.5"
+  },
+  "homepage": "https://home-view.netlify.app/#"
+}

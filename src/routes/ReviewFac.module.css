@@ -1,0 +1,194 @@
+.container {
+  width: 100%;
+  min-height: calc(100vh - var(--navHeight));
+  padding: 30px 0;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    rgb(204, 231, 237),
+    rgb(255, 255, 255),
+    rgb(255, 212, 146)
+  );
+}
+.container * {
+  transition: all 0.5s;
+}
+.form {
+  width: 80%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.form label {
+  align-self: flex-start;
+  margin: 30px 0 10px 0;
+  font-weight: bolder;
+  font-size: 1.5rem;
+}
+.addressInput {
+  width: 100%;
+  height: 40px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+}
+.addressInput:hover {
+  background-color: var(--lightBlue);
+  cursor: pointer;
+}
+.addressInput.active {
+  width: 100%;
+  height: auto;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+}
+.addressInformation div {
+  margin: 5px 0;
+}
+.addressInformation div:nth-child(1) {
+  font-size: 1.25rem;
+  font-weight: bolder;
+}
+.buttons {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.mediumBtn {
+  width: calc((100% - 40px) / 3);
+  height: 50px;
+  align-self: flex-start;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mediumBtn:hover {
+  cursor: pointer;
+  background-color: rgb(253, 237, 193);
+}
+.mediumBtn.active {
+  background-color: rgb(255, 202, 44);
+}
+.container textarea {
+  width: 100%;
+  height: 100px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  resize: none;
+  overflow-y: auto;
+}
+.stars {
+  margin-top: -15px;
+  margin-left: -5px;
+  align-self: flex-start;
+  display: flex;
+}
+.star {
+  font-size: 3rem;
+  text-shadow: 1px 1px 7px rgba(0, 0, 0, 0.466);
+  color: white;
+}
+.star:hover {
+  cursor: pointer;
+  color: rgb(253, 237, 193);
+}
+.star.active {
+  font-size: 3rem;
+  color: rgb(255, 202, 44);
+}
+.submitBtns {
+  display: flex;
+  margin: 25px 0;
+  gap: 20px;
+}
+.submitBtns .mediumBtn {
+  min-width: 150px;
+}
+
+.submitBtns div:nth-child(1):hover {
+  background-color: rgb(247, 199, 199);
+}
+.submitBtns div:nth-child(2):hover {
+  background-color: rgb(199, 208, 247);
+}
+.topContainer {
+  width: 100%;
+  max-width: 1000px;
+  height: var(--navHeight) !important;
+  position: fixed;
+  top: 0px;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: whitesmoke;
+  font-size: 1.5rem;
+  transform: translateX(-50%);
+}
+.topContainer:hover {
+  cursor: pointer;
+  background-color: rgb(247, 199, 199);
+}
+.daumAddressForm {
+  width: 100%;
+  max-width: 1000px;
+  height: calc(100vh - var(--navHeight)) !important;
+  position: fixed;
+  transform: translateX(-50%);
+  top: var(--navHeight);
+}
+.photoContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+.buttons button {
+  width: 100px;
+  flex-grow: 1;
+  background: transparent;
+  border: 1px solid black;
+  padding: 10px 15px;
+  transition: all 0.7s;
+}
+
+.photoContainer button:nth-child(1):hover {
+  background-color: var(--lightBlue);
+  cursor: pointer;
+}
+.photoContainer button:nth-child(2):hover {
+  background-color: tomato;
+  color: white;
+  cursor: pointer;
+}
+.photoContainer button:active {
+  filter: hue-rotate(330deg);
+}
+
+.photoContainer img {
+  min-width: 100%;
+  width: 100%;
+  margin: 15px 0;
+}
+@media screen and (max-width: 613px) {
+  .form {
+    width: 90%;
+  }
+  .mediumBtn {
+    width: calc(50% - 10px);
+  }
+}

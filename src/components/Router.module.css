@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+  color: black;
+  font-family: var(--notoFont);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  padding: 0;
+  margin: 0;
+  width: 1000px;
+  margin: 0 auto;
+  min-height: var(--minHeight);
+  height: auto;
+  --lightBlue: rgb(199, 208, 247);
+  --lightRed: rgb(247, 199, 199);
+  --navHeight: 70px;
+  --navLargeHeight: 240px;
+  --defaultFont: "Malgun Gothic", dotum, "돋움", sans-serif;
+  --notoFont: "Noto Sans KR";
+  --minHeight: 100vh;
+  --orange: rgb(255, 202, 44);
+  box-shadow: 0 0 70px 10px rgba(0, 0, 0, 0.205);
+}
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.body {
+  height: 100%;
+}
+
+@media screen and (max-width: 1000px) {
+  html {
+    width: 100%;
+  }
+}
+
+input,
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid black; /* 원하는 테두리 색상으로 변경하세요. */
+}
