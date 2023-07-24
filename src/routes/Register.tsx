@@ -9,7 +9,6 @@ import styled, { keyframes } from "styled-components";
 import { apiAddress, sessionTime } from "value";
 
 function Register() {
-  const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +35,6 @@ function Register() {
     if (id === "email") setEmail(value);
     if (id === "password") setPassword(value);
     if (id === "passwordConfirm") setPasswordConfirm(value);
-    if (id === "name") setName(value);
     if (id === "nickname") setNickname(value);
     console.log(email, password);
   };
@@ -48,7 +46,6 @@ function Register() {
   const confirm = async () => {
     if (pathname === register) {
       if (
-        name &&
         nickname &&
         email &&
         password &&
@@ -56,7 +53,6 @@ function Register() {
         password === passwordConfirm
       ) {
         const userData = {
-          name: name,
           nickname: nickname,
           email: email,
           password: password,
@@ -65,9 +61,6 @@ function Register() {
           const response = await axios.post(`${apiAddress}/register`, {
             ...userData,
           });
-
-          console.log("리스폰즈DATAthen : " + response.data);
-          console.log("리스폰즈STATUS : " + response.status);
           if (response.status === 201) {
             dispatch(
               setModal({
@@ -80,12 +73,11 @@ function Register() {
             );
           }
         } catch (error: any) {
-          const errorText = error.response.data.toString();
           dispatch(
             setModal({
               title: "에러!",
               titleColor: "red",
-              text: errorText,
+              text: error.response.data,
             } as any)
           );
         }
@@ -159,7 +151,7 @@ function Register() {
       dispatch(
         setModal({
           title: "알림",
-          text: "이메일이 중복입니다. 다른 이메일을 입력해주세요.",
+          text: error.response.data,
           titleColor: "red",
         } as any)
       );
@@ -187,16 +179,7 @@ function Register() {
         {pathname === register ? (
           <>
             <Title>회원가입</Title>
-            <Label>이름 (2~10자)</Label>
-            <Input
-              type="text"
-              id="name"
-              onChange={onChange}
-              value={name}
-              placeholder="특수 문자, 숫자 제외"
-              maxLength={10}
-            ></Input>
-            <Label>닉네임 (2~16자 특수문자X)</Label>
+            <Label>닉네임 (2~8자 특수문자X)</Label>
             <Input
               type="text"
               id="nickname"
@@ -240,9 +223,7 @@ function Register() {
           onChange={onChange}
           value={password}
           placeholder={
-            pathname === register
-              ? "8~16자리 대소문자, 숫자, 특수문자 1개 이상 포함"
-              : "Password"
+            pathname === register ? "8자리 이상 영어, 숫자 포함" : "Password"
           }
           autoComplete="on"
           onKeyUp={enterPress}

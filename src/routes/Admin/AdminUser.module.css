@@ -23,7 +23,7 @@
   margin: 1;
 }
 
-.table td:nth-child(1) {
+/* .table td:nth-child(1) {
   width: 100px;
 }
 
@@ -32,7 +32,7 @@
 }
 .table td:nth-child(3) {
   width: 110px;
-}
+} */
 
 .table tr:nth-child(odd) {
   background-color: rgb(248, 250, 195);

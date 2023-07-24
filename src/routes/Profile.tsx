@@ -21,13 +21,13 @@ function Profile() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //getMyReviews();
+    getMyReviews();
   }, []);
 
   const getMyReviews = async () => {
     try {
-      const response = await axios.get(`${apiAddress}/api/mypage/reviews`, {
-        withCredentials: true,
+      const response = await axios.get(`${apiAddress}/review/mypage/all`, {
+        headers: { Authorization: session.token },
       });
       setMyreviews(response.data);
       console.log(JSON.stringify(response));
@@ -133,16 +133,11 @@ function Profile() {
           navigate("/");
         }
       } catch (error: any) {
-        let errorText = JSON.stringify(error);
-        console.error(error.response.status);
-        if (error.response.status === 400)
-          errorText =
-            "비밀번호 양식을 맞춰주세요 (8~16자리 대소문자, 숫자, 특수문자 1개 이상 포함)";
         dispatch(
           setModal({
             title: "에러!",
             titleColor: "red",
-            text: errorText,
+            text: error.response.data,
           } as any)
         );
       }
@@ -212,7 +207,7 @@ function Profile() {
             type="text"
             name="fakeusernameremembered"
             placeholder="fake"
-            value={session.email}
+            defaultValue={session.email}
             tabIndex={-1}
             style={{ opacity: "0", pointerEvents: "none", height: "0px" }}
           />
@@ -233,19 +228,23 @@ function Profile() {
           </Buttons>
         </Form>
       )}
-      <Label
-        style={{
-          marginLeft: "30px",
-          fontSize: "1.3rem",
-          marginBottom: "-10px",
-        }}
-      >
-        내가 작성한 리뷰
-      </Label>
-      {myReviews.length > 0 &&
-        myReviews.map((review: any) => (
-          <ReviewBlock review={review} key={review.review_id} />
-        ))}
+
+      {myReviews.length > 0 && (
+        <>
+          <Label
+            style={{
+              marginLeft: "30px",
+              fontSize: "1.3rem",
+              marginBottom: "-10px",
+            }}
+          >
+            내가 작성한 리뷰
+          </Label>
+          {myReviews.map((review: any) => (
+            <ReviewBlock review={review} key={review.id} />
+          ))}
+        </>
+      )}
     </Container>
   );
 }

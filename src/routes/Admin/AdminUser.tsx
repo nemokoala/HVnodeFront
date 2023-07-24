@@ -89,11 +89,6 @@ function AdminUser() {
               <button onClick={() => sortId(+1)}>▼</button>
             </th>
             <th>
-              이름
-              <button onClick={() => sortName(-1)}>▲</button>
-              <button onClick={() => sortName(1)}>▼</button>
-            </th>
-            <th>
               이메일
               <button onClick={() => sortEmail(-1)}>▲</button>
               <button onClick={() => sortEmail(1)}>▼</button>
@@ -105,7 +100,6 @@ function AdminUser() {
           {users.map((user: any) => (
             <tr key={user.id}>
               <td>{user.id}</td>
-              <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.nickname}</td>
               <td>{user.role}</td>
