@@ -174,7 +174,7 @@ function Profile() {
             id="newPassword"
             onChange={onChange}
             value={newPassword}
-            placeholder="8~16자리 대소문자, 숫자, 특수문자 1개 이상 포함"
+            placeholder="8자리 이상 영어, 숫자 포함"
             autoComplete="new-password"
             onKeyPress={enterPress}
           ></Input>
