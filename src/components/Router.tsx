@@ -22,7 +22,7 @@ import Modal from "./Modal";
 import Community from "routes/Community";
 import CommunityFactory from "routes/CommunityFactory";
 import Post from "./Post";
-import KakaoCallback from "routes/KakaoCallback";
+import Verify from "routes/Verify";
 
 function AppRouter() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,30 +35,44 @@ function AppRouter() {
         <BackButton />
         {modal.open && <Modal />}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route
-            path="/review"
-            element={
-              <Review searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-            }
-          />
-          <Route path="/review/:id" element={<ReviewDetail />} />
-          <Route path="/reviewfac" element={<ReviewFac />} />
-          <Route path="/map" element={<Map />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/community/:id" element={<Post />} />
-          <Route path="/community/post" element={<CommunityFactory />} />
-          {session ? (
-            <Route path="/profile" element={<Profile />} />
-          ) : (
+          {(!session || session.verified) && (
             <>
-              <Route path="/join" element={<Register />} />
-              <Route path="/login" element={<Register />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route
+                path="/review"
+                element={
+                  <Review
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                  />
+                }
+              />
+              <Route path="/review/:id" element={<ReviewDetail />} />
+              <Route path="/reviewfac" element={<ReviewFac />} />
+              <Route path="/map" element={<Map />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/community/:id" element={<Post />} />
+              <Route path="/community/post" element={<CommunityFactory />} />
+              {session ? (
+                <Route path="/profile" element={<Profile />} />
+              ) : (
+                <>
+                  <Route path="/join" element={<Register />} />
+                  <Route path="/login" element={<Register />} />
+                </>
+              )}
+              <Route path="*" element={<Navigate replace to="/" />} />
             </>
           )}
 
-          <Route path="*" element={<Navigate replace to="/" />} />
+          {/* 미인증 시 로그인 인증창으로 */}
+          {session && !session.verified && (
+            <>
+              <Route path="/verify" element={<Verify />} />
+              <Route path="*" element={<Navigate replace to="/verify" />} />
+            </>
+          )}
         </Routes>
       </Router>
     </div>
