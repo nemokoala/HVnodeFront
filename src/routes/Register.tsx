@@ -7,6 +7,7 @@ import { saveSession } from "slice/userSlice";
 import { setModal } from "slice/modalSlice";
 import styled, { keyframes } from "styled-components";
 import { apiAddress, sessionTime } from "value";
+import KakaoLogin from "react-kakao-login";
 
 function Register() {
   const [nickname, setNickname] = useState("");
@@ -168,6 +169,53 @@ function Register() {
       }, 300);
     }
   }, [modal]);
+
+  const kakaoOnSuccess = async (data: any) => {
+    const access_token = data.response.access_token;
+    try {
+      const kakaoResponse = await axios.post(
+        "https://kapi.kakao.com/v2/user/me",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+      const password = kakaoResponse.data.kakao_account.email;
+      const nickname = kakaoResponse.data.kakao_account.profile.nickname;
+      const email = kakaoResponse.data.kakao_account.email;
+      console.log(JSON.stringify(kakaoResponse));
+      try {
+        const formUserData = {
+          email: email,
+          password: password.toString(),
+          nickname: nickname,
+          sessionTime: sessionTime.toString(),
+        };
+        const response = await axios.post(
+          `${apiAddress}/kakao/auth`,
+          formUserData
+        );
+        if (response.status === 201) {
+          dispatch(saveSession(response.data as any));
+          navigate("/");
+        }
+        if (response.status === 202) {
+          kakaoOnSuccess(data);
+          return;
+        }
+      } catch (error: any) {
+        console.error(error);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
+  const kakaoOnFailure = (error: any) => {
+    console.log(error);
+  };
   return (
     <Container>
       <Form
@@ -256,6 +304,11 @@ function Register() {
           </div>
           <div>취소</div>
         </Buttons>
+        <KakaoBtn
+          token={process.env.REACT_APP_JS_API_KEY as any}
+          onSuccess={kakaoOnSuccess}
+          onFail={kakaoOnFailure}
+        />
         {pathname === register ? (
           <LoginLink
             onClick={() => {
@@ -417,5 +470,26 @@ const LoginLink = styled.div`
     cursor: pointer;
   }
 `;
-
+const KakaoBtn = styled(KakaoLogin)`
+  width: 100%;
+  height: 100%;
+  margin: -10px auto 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  background-color: rgba(251, 252, 255, 0.226);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 0px 20px 5px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  font-size: 1.3rem;
+  &:hover {
+    filter: contrast(200%);
+    cursor: pointer;
+  }
+  &:active {
+    filter: hue-rotate(340deg);
+  }
+`;
 export default Register;

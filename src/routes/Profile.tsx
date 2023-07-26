@@ -73,15 +73,19 @@ function Profile() {
           dispatch(
             setModal({
               title: "알림",
-              text: "비밀번호 확인이 완료되었습니다. 수정하실 정보를 수정해 주세요.",
+              text: !session.kakao
+                ? "비밀번호 확인이 완료되었습니다. 수정하실 정보를 수정해 주세요."
+                : "이메일 확인이 완료되었습니다. 수정하실 정보를 수정해 주세요.",
             } as any)
           );
         } else if (response.data === "failed") {
           dispatch(
             setModal({
-              title: "에러!",
+              title: "확인 실패!",
               titleColor: "red",
-              text: "비밀번호가 일치하지 않습니다.",
+              text: !session.kakao
+                ? "비밀번호가 일치하지 않습니다."
+                : "로그인할 때 사용한 카카오 계정 이메일을 입력해 주세요.",
             } as any)
           );
         }
@@ -160,38 +164,44 @@ function Profile() {
             autoCapitalize="off"
             onKeyPress={enterPress}
           ></Input>
-          <Label>새로운 비밀번호 (빈 칸일 경우 기존 비밀번호 유지)</Label>
-          <input
-            type="text"
-            name="fakeemail"
-            placeholder="fake"
-            value={session.email}
-            tabIndex={-1}
-            style={{ opacity: "0", pointerEvents: "none", height: "0px" }}
-          />
-          <Input
-            type="password"
-            id="newPassword"
-            onChange={onChange}
-            value={newPassword}
-            placeholder="8자리 이상 영어, 숫자 포함"
-            autoComplete="new-password"
-            onKeyPress={enterPress}
-          ></Input>
-          {newPassword.length > 0 && (
+
+          {!session.kakao && (
             <>
-              <Label>새로운 비밀번호 확인</Label>
+              <Label>새로운 비밀번호 (빈 칸일 경우 기존 비밀번호 유지)</Label>
+              <input
+                type="text"
+                name="fakeemail"
+                placeholder="fake"
+                value={session.email}
+                tabIndex={-1}
+                style={{ opacity: "0", pointerEvents: "none", height: "0px" }}
+              />
               <Input
                 type="password"
-                id="newPasswordConfirm"
+                id="newPassword"
                 onChange={onChange}
-                value={newPasswordConfirm}
-                placeholder="비밀번호 확인"
+                value={newPassword}
+                placeholder="8자리 이상 영어, 숫자 포함"
                 autoComplete="new-password"
                 onKeyPress={enterPress}
               ></Input>
+              {newPassword.length > 0 && (
+                <>
+                  <Label>새로운 비밀번호 확인</Label>
+                  <Input
+                    type="password"
+                    id="newPasswordConfirm"
+                    onChange={onChange}
+                    value={newPasswordConfirm}
+                    placeholder="비밀번호 확인"
+                    autoComplete="new-password"
+                    onKeyPress={enterPress}
+                  ></Input>
+                </>
+              )}
             </>
           )}
+
           <Buttons>
             <div style={{ background: "var(--orange)" }} onClick={confirm}>
               수정 확인
@@ -202,7 +212,9 @@ function Profile() {
       ) : (
         <Form autoComplete="new-password">
           <Title>내 프로필 수정</Title>
-          <Label>현재 비밀번호</Label>
+          <Label>
+            {!session.kakao ? "현재 비밀번호" : "카카오 계정 이메일 확인"}
+          </Label>
           <input
             type="text"
             name="fakeusernameremembered"
@@ -216,9 +228,13 @@ function Profile() {
             id="password"
             onChange={onChange}
             value={password}
-            placeholder="현재 비밀번호를 입력해주세요."
+            placeholder={
+              !session.kakao
+                ? "현재 비밀번호를 입력해주세요."
+                : "example@xxx.com"
+            }
             autoComplete="new-password"
-            onKeyPress={enterPress}
+            onKeyUp={enterPress}
           ></Input>
           <Buttons>
             <div style={{ background: "var(--orange)" }} onClick={confirm}>

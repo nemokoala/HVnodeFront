@@ -22,6 +22,7 @@ import Modal from "./Modal";
 import Community from "routes/Community";
 import CommunityFactory from "routes/CommunityFactory";
 import Post from "./Post";
+import KakaoCallback from "routes/KakaoCallback";
 
 function AppRouter() {
   const [searchTerm, setSearchTerm] = useState("");
