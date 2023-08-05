@@ -38,7 +38,6 @@ function AppRouter() {
           {(!session || session.verified) && (
             <>
               <Route path="/" element={<Home />} />
-              <Route path="/admin" element={<Admin />} />
               <Route
                 path="/review"
                 element={
@@ -64,6 +63,9 @@ function AppRouter() {
               )}
               <Route path="*" element={<Navigate replace to="/" />} />
             </>
+          )}
+          {session.role === "ADMIN" && (
+            <Route path="/admin" element={<Admin />} />
           )}
 
           {/* 미인증 시 로그인 인증창으로 */}
