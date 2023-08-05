@@ -16,7 +16,7 @@ function AdminUser() {
   const getUserData = async () => {
     try {
       const response = await axios.get(`${apiAddress}/admin/user/list`, {
-        withCredentials: true,
+        headers: { Authorization: session.token },
       });
       console.log(JSON.stringify(response));
       setUsers(response.data);
