@@ -16,7 +16,7 @@ function AdminUser() {
   const getUserData = async () => {
     try {
       const response = await axios.get(`${apiAddress}/admin/user/list`, {
-        headers: { Authorization: session.token },
+        withCredentials: true,
       });
       console.log(JSON.stringify(response));
       setUsers(response.data);
@@ -30,9 +30,7 @@ function AdminUser() {
     try {
       const response = await axios.delete(
         `${apiAddress}/admin/user/delete/${id}`,
-        {
-          headers: { Authorization: session.token },
-        }
+        { withCredentials: true }
       );
       console.log(JSON.stringify(response));
       // dispatch(setModal({ text: JSON.stringify(response) } as any));
@@ -63,8 +61,8 @@ function AdminUser() {
   };
   const sortName = (n: any) => {
     const sortedName = [...users].sort((a, b) => {
-      if (a.name < b.name) return n;
-      if (a.name > b.name) return -n;
+      if (a.nickname < b.nickname) return n;
+      if (a.nickname > b.nickname) return -n;
       return 0;
     });
     setUsers(sortedName);
@@ -76,6 +74,14 @@ function AdminUser() {
       return 0;
     });
     setUsers(sortedEmail);
+  };
+  const sortTime = (n: number) => {
+    const sortedTime = [...users].sort((a, b) => {
+      if (a.registerTime < b.registerTime) return n;
+      if (a.registerTime > b.registerTime) return -n;
+      return 0;
+    });
+    setUsers(sortedTime);
   };
 
   return (
@@ -93,8 +99,16 @@ function AdminUser() {
               <button onClick={() => sortEmail(-1)}>▲</button>
               <button onClick={() => sortEmail(1)}>▼</button>
             </th>
-            <th>닉네임</th>
+            <th>
+              닉네임<button onClick={() => sortName(-1)}>▲</button>
+              <button onClick={() => sortName(1)}>▼</button>
+            </th>
             <th>권한</th>
+            <th>카카오</th>
+            <th>
+              가입일<button onClick={() => sortTime(-1)}>▲</button>
+              <button onClick={() => sortTime(1)}>▼</button>
+            </th>
             <th>삭제</th>
           </tr>
           {users.map((user: any) => (
@@ -103,6 +117,8 @@ function AdminUser() {
               <td>{user.email}</td>
               <td>{user.nickname}</td>
               <td>{user.role}</td>
+              <td>{user.kakao}</td>
+              <td>{user.registerTime}</td>
               {/*<td>
                 {user.interestArea.map((area: any, index: any) => (
                   <span key={`${user.id}${index}_inter`}>
