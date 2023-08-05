@@ -1,7 +1,8 @@
-export const apiAddress =
-  "https://port-0-hvback-eg4e2alkfs490q.sel4.cloudtype.app";
-//https://port-0-hvback-eg4e2alkfs490q.sel4.cloudtype.app
-//http://localhost:8000
+let url;
+let dev = process.env.REACT_APP_ENV;
+if (dev === "development") url = "http://localhost:8000";
+else url = "https://port-0-hvback-eg4e2alkfs490q.sel4.cloudtype.app";
+export const apiAddress = url;
 
 export const sigungu = [
   { name: "서울/강남구", lat: 37.4951, lng: 127.06278, count: 0 },

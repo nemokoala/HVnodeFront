@@ -30,7 +30,7 @@ function AdminUser() {
     try {
       const response = await axios.delete(
         `${apiAddress}/admin/user/delete/${id}`,
-        { withCredentials: true }
+        { headers: { Authorization: session.token } }
       );
       console.log(JSON.stringify(response));
       // dispatch(setModal({ text: JSON.stringify(response) } as any));
