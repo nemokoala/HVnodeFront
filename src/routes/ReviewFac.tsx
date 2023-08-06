@@ -21,7 +21,7 @@ function ReviewFac({ setReviewData }: any) {
   const [lat, setLat] = useState(0); //위도 35.xx
   const [lng, setLng] = useState(0); //경도 127.xx
   const [dong, setDong] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
   const [previewSrc, setPreviewSrc] = useState(null);
   const [imageLink, setImageLink] = useState("");
   const [sending, setSending] = useState(false); //리뷰 post 보내는 중인지 체크
@@ -126,44 +126,51 @@ function ReviewFac({ setReviewData }: any) {
     setPreviewSrc(null);
     fileInput.current.value = null;
   };
-  const onFileUpload = async () => {
+
+  const generatePresignedUrl = async () => {
+    try {
+      const response = await axios.get(`${apiAddress}/review/getuploadurl`, {
+        headers: { Authorization: session.token },
+      });
+      return {
+        presignedUrl: response.data.presignedUrl,
+        imageUrl: response.data.imageUrl,
+      };
+    } catch (error) {
+      console.error("Error generating presigned URL:", error);
+      throw error;
+    }
+  };
+
+  const uploadImage = async () => {
     if (sending) return;
     setSending(true);
     if (!selectedFile) {
       sendReview();
       return;
     }
-    const formData = new FormData();
-    formData.append("images", selectedFile as any); // 'file'은 스프링 서버에서 사용할 키 값이다.
-
     try {
-      const response = await axios.post(`${apiAddress}/s3/upload`, formData);
-      console.log("File Uploaded Successfully:", response);
-      if (response.data) {
-        setImageLink(response.data);
-        sendReview(response.data);
-      } else
-        dispatch(
-          setModal({
-            title: "에러",
-            titleColor: "red",
-            text: "이미지 업로드를 실패하였습니다.",
-          } as any)
-        );
-    } catch (error) {
-      const errorText = JSON.stringify(error);
+      const { presignedUrl, imageUrl } = await generatePresignedUrl();
+      const response = await axios.put(presignedUrl, selectedFile, {
+        headers: {
+          "Content-Type": selectedFile.type as any,
+        },
+      });
+      sendReview(imageUrl);
+      console.log("Image uploaded:", response.status);
+    } catch (error: any) {
       setSending(false);
       dispatch(
         setModal({
           title: "에러!",
           titleColor: "red",
-          text: errorText,
+          text: error.response.data,
         } as any)
       );
     }
   };
-  const sendReview = async (urlImage = imageLink) => {
-    if (sending) return;
+
+  const sendReview = async (imageUrl = "") => {
     if (buildingName === "") {
       alert("주소를 입력해주세요.");
       setSending(false);
@@ -189,10 +196,10 @@ function ReviewFac({ setReviewData }: any) {
             sigungu,
             dong,
           },
-          //url: urlImage,
           pros: pros,
           cons: cons,
           score: star,
+          imageUrl: imageUrl,
         };
         const response = await axios.post(
           `${apiAddress}/review/add`,
@@ -412,7 +419,7 @@ function ReviewFac({ setReviewData }: any) {
         <div className={styles.submitBtns}>
           <div
             className={styles.mediumBtn}
-            onClick={() => sendReview()}
+            onClick={() => uploadImage()}
             style={{ backgroundColor: sending ? "gray" : "" }}
           >
             {!sending ? "작성 완료" : "작성 중..."}

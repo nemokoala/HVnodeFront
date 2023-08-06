@@ -108,8 +108,8 @@ function ReviewDetail() {
       if (window.confirm("[어드민] 리뷰를 삭제하시겠습니까?"))
         try {
           const response = await axios.delete(
-            `${apiAddress}/admin/review/${reviewId}`,
-            { withCredentials: true }
+            `${apiAddress}/admin/review/delete/${reviewId}`,
+            { headers: { Authorization: session.token } }
           );
           if (response) navigate("/review");
           alert("삭제가 완료되었습니다.");
@@ -177,7 +177,7 @@ function ReviewDetail() {
             <Hr></Hr>
             <Pros>장점 : {reviewData.pros}</Pros>
             <Cons>단점 : {reviewData.cons}</Cons>
-            {/* {reviewData.url && <Img src={reviewData.url} />} */}
+            {reviewData.imageUrl && <Img src={reviewData.imageUrl} />}
             <UserName>
               작성자 : {reviewData.nickname}#{reviewData.userId}
             </UserName>
@@ -269,8 +269,10 @@ const Btn = styled.div<any>`
 
 const Img = styled.img`
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   margin: 15px auto;
+  display: flex;
+  border-radius: 30px;
 `;
 
 const CategoryContainer = styled.div`
