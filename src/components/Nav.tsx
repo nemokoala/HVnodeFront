@@ -65,7 +65,7 @@ function Nav({ searchTerm, setSearchTerm }: any) {
           </Link>
           {session.role === "ADMIN" && (
             <Link to="/admin">
-              <li>관리 페이지</li>
+              <li>관리자</li>
             </Link>
           )}
         </ul>

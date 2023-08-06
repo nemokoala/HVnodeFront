@@ -120,7 +120,7 @@ function MapContainer({ reviewData, nearBuildings }: any) {
         {nearBuildings &&
           nearBuildings.map((building: any) => (
             <React.Fragment key={building.place_url}>
-              {zoomLevel <= 4 && (
+              {zoomLevel <= 3 && (
                 <CustomOverlayMap
                   position={{
                     lat: building.y,
@@ -138,7 +138,7 @@ function MapContainer({ reviewData, nearBuildings }: any) {
                       rel="noopener noreferrer"
                       style={{
                         padding: "7px 10px",
-                        fontSize: "1rem",
+                        fontSize: "0.93rem",
                         height: "auto",
                       }}
                     >
@@ -177,6 +177,7 @@ const NearDiv = styled.div`
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 0px 20px 10px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  transition: all 0.5s;
   &:hover {
     background-color: rgba(199, 208, 247, 0.8) !important;
     cursor: pointer;

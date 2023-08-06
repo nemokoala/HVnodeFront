@@ -220,6 +220,7 @@ function ReviewFac({ setReviewData }: any) {
         }
 
         if (response.data === "중복방") {
+          setSending(false);
           dispatch(
             setModal({
               title: "알림",

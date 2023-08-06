@@ -24,16 +24,16 @@ function Review({ searchTerm, setSearchTerm }: any) {
       let filtered = reviews.filter(
         (review: any) =>
           (review.room.building.includes(searchTerm) ||
-            review.room.new_address.includes(searchTerm) ||
-            review.room.old_address.includes(searchTerm)) &&
+            review.room.newAddress.includes(searchTerm) ||
+            review.room.oldAddress.includes(searchTerm)) &&
           review.room.sido === sidoFilter
       );
       if (sidoFilter === "전체") {
         filtered = reviews.filter(
           (review: any) =>
             review.room.building.includes(searchTerm) ||
-            review.room.new_address.includes(searchTerm) ||
-            review.room.old_address.includes(searchTerm)
+            review.room.newAddress.includes(searchTerm) ||
+            review.room.oldAddress.includes(searchTerm)
         );
       }
       console.log(filtered);
@@ -44,8 +44,8 @@ function Review({ searchTerm, setSearchTerm }: any) {
       const newfilteredReview = reviews.filter(
         (review: any) =>
           review.room.building.includes(searchTerm) ||
-          review.room.new_address.includes(searchTerm) ||
-          review.room.old_address.includes(searchTerm)
+          review.room.newAddress.includes(searchTerm) ||
+          review.room.oldAddress.includes(searchTerm)
       );
       setFilteredReivew([...newfilteredReview]);
     }
