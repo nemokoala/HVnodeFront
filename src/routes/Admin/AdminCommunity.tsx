@@ -151,7 +151,7 @@ function AdminCommunity() {
               <td>{post.userId}</td>
               <td>{post.nickname}</td>
               <td>{post.title}</td>
-              <td>{post.content}</td>
+              <td>{post.content.split("<br/>").join("\n")}</td>
               <td>{changeDate(post.postTime)}</td>
               <td>
                 <button
@@ -193,11 +193,9 @@ const Table = styled.table`
   & td {
     border: 1px solid black;
     margin: 1;
+    white-space: pre-wrap;
   }
-  & td {
-    border: 1px solid black;
-    margin: 1;
-  }
+
   & td:nth-child(1) {
     width: 80px;
   }

@@ -142,17 +142,23 @@ function AdminReview() {
             </th>
             <th>장점</th>
             <th>단점</th>
+            <th>사진</th>
             <th>삭제</th>
           </tr>
           {reviews.map((review: any) => (
             <tr key={review.id}>
               <td>{review.id}</td>
-              <td>{review.room.id}</td>
+              <td onClick={() => alert(JSON.stringify(review.room))}>
+                {review.room.id}
+              </td>
               <td>{review.userId}</td>
               <td>{review.nickname}</td>
               <td>{review.score}</td>
               <td>{review.pros}</td>
               <td>{review.cons}</td>
+              <td>
+                <img width="100px" src={review.imageUrl} />
+              </td>
               <td>
                 <button
                   style={{ background: "rgb(228, 84, 84)" }}
@@ -213,7 +219,7 @@ const Table = styled.table`
   & td:nth-child(5) {
     width: 80px;
   }
-  & td:nth-child(8) {
+  & td:nth-child(9) {
     width: 65px;
   }
   & tr:nth-child(odd) {
