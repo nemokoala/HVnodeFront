@@ -180,7 +180,7 @@ function Community() {
           id="search"
           onChange={onChange}
           onKeyUp={enterPress}
-          placeholder="게시글 제목 검색"
+          placeholder="게시글 제목+내용 검색"
           value={search}
         />
         <div onClick={() => searching(0)}>검색</div>

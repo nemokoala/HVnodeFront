@@ -44,14 +44,15 @@ function Nav({ searchTerm, setSearchTerm }: any) {
     <>
       <nav className={styles.nav}>
         <Link to="/">
-          <img
+          <i className={`${styles.logo} fa-solid fa-house fa-xl`}></i>
+          {/* <img
             className={styles.logo}
             src="https://icon-library.com/images/white-home-icon-png/white-home-icon-png-21.jpg"
             alt="logo"
-          />
+          /> */}
         </Link>
         <ul className={styles.ul}>
-          <Link to="/">
+          <Link to="/map">
             <li>리뷰 지도</li>
           </Link>
           <Link to="/review">

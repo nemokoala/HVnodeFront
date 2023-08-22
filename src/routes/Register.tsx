@@ -116,6 +116,13 @@ function Register() {
 
         if (response.status === 201) {
           dispatch(saveSession(response.data as any));
+          dispatch(
+            setModal({
+              title: "알림",
+              titleColor: "black",
+              text: "로그인 되었습니다.",
+            } as any)
+          );
           navigate("/");
         }
       } catch (error: any) {

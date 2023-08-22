@@ -23,6 +23,7 @@ import Community from "routes/Community";
 import CommunityFactory from "routes/CommunityFactory";
 import Post from "./Post";
 import Verify from "routes/Verify";
+import MapCluster from "./MapCluster";
 
 function AppRouter() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -47,6 +48,7 @@ function AppRouter() {
                   />
                 }
               />
+              <Route path="/map" element={<MapCluster />} />
               <Route path="/review/:id" element={<ReviewDetail />} />
               <Route path="/reviewfac" element={<ReviewFac />} />
               <Route path="/map" element={<Map />} />
