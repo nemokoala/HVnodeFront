@@ -225,6 +225,7 @@ function MapCluster() {
           // 지도의 크기
           width: "100%",
           height: "50%",
+          boxShadow: "0px 10px 15px 0px rgba(0, 0, 0, 0.3582)",
         }}
         level={zoomLevel} // 지도의 확대 레벨
         onZoomChanged={(map) => {
@@ -433,7 +434,7 @@ function MapCluster() {
           reviewDatas.map((review: any) => (
             <ReviewBlock key={review.id} review={review} />
           ))}
-        {showReview.length === 0 && (
+        {reviewDatas.length === 0 && (
           <Notice>마커를 클릭하여 리뷰정보를 확인하세요!</Notice>
         )}
       </ContentDiv>

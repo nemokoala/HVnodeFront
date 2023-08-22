@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setModal } from "slice/modalSlice";
 import { saveSession } from "slice/userSlice";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 function Home({ reviewData }: any) {
   return (
@@ -142,15 +142,29 @@ function Block() {
     </>
   );
 }
+const fadein = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1)
+  }
+`;
 const Container = styled.div`
   width: 100%;
+  height: calc(100dvh - var(--navHeight));
   display: flex;
   padding: 30px;
   justify-content: flex-start;
+  align-content: flex-start;
   flex-wrap: wrap;
   gap: 30px;
+  background: linear-gradient(to bottom, white, #def4ff);
 `;
 const Div = styled.div<any>`
+  animation: ${fadein} 1s ease-out;
   width: ${(props) => `calc(${props.width})`};
   height: ${(props) => `${props.height}px`};
   padding: 15px;
