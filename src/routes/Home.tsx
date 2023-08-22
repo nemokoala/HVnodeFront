@@ -62,7 +62,7 @@ function Block() {
       >
         리뷰 지도
         <i className="fa-solid fa-map fa-xs"></i>
-        <Subtitle>지도를 통해 리뷰를 확인해보세요.</Subtitle>
+        <Subtitle>지도를 통해 해당 지역의 방 리뷰를 확인해보세요.</Subtitle>
       </Div>
       <Div
         ref={ref}
@@ -72,7 +72,7 @@ function Block() {
       >
         리뷰 목록
         <i className="fa-solid fa-list fa-xs"></i>
-        <Subtitle>모든 리뷰를 리스트로 확인해보세요.</Subtitle>
+        <Subtitle>모든 방 리뷰를 리스트로 한눈에 확인해보세요.</Subtitle>
       </Div>
       <Div
         ref={ref}
@@ -82,7 +82,9 @@ function Block() {
       >
         커뮤니티
         <i className="fa-solid fa-comment fa-xs"></i>
-        <Subtitle>일상 얘기부터 자취방 꿀팁을 얻어보세요.</Subtitle>
+        <Subtitle>
+          일상 얘기부터 자취 꿀팁까지 다양한 정보를 얻어보세요.
+        </Subtitle>
       </Div>
       <Div
         ref={ref}
@@ -154,7 +156,7 @@ const fadein = keyframes`
 `;
 const Container = styled.div`
   width: 100%;
-  height: calc(100dvh - var(--navHeight));
+  min-height: calc(100dvh - var(--navHeight));
   display: flex;
   padding: 30px;
   justify-content: flex-start;
