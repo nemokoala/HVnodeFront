@@ -471,13 +471,13 @@ const LoginLink = styled.div`
   }
 `;
 const KakaoBtn = styled(KakaoLogin)`
-  width: 100%;
+  width: 100% !important;
   height: 100%;
   margin: -10px auto 20px auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 15px !important;
   -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
   background-color: rgba(251, 252, 255, 0.226);
