@@ -32,29 +32,30 @@ function MapCluster() {
   const [dongs, setDongs] = useState<any>([]);
   const [sidoTarget, setSidoTarget] = useState("");
   const [sido, setSido] = useState([
-    { name: "서울", location: [37.5635694, 126.9800083] },
-    { name: "제주", location: [33.485694444, 126.500333333] },
-    { name: "전남", location: [34.8130444, 126.465] },
-    { name: "전북", location: [35.81727, 127.11105277777777] },
-    { name: "광주", location: [35.1569749999, 126.853363888] },
-    { name: "경남", location: [35.234736111, 128.69416666666666] },
-    { name: "경북", location: [36.399605555, 128.6027666] },
-    { name: "울산", location: [35.5354083333, 129.313688] },
-    { name: "대구", location: [35.86854166666, 128.60355277] },
-    { name: "부산", location: [35.1770194444, 129.07695277] },
-    { name: "충남", location: [36.3238722222, 126.922955555] },
-    { name: "충북", location: [36.7325, 127.49358611111111] },
-    { name: "세종", location: [36.4800121, 127.2890691] },
-    { name: "대전", location: [36.347119444, 127.38656666] },
-    { name: "인천", location: [37.4532333, 126.70735277] },
-    { name: "강원", location: [37.742618, 128.270231] },
-    { name: "경기", location: [37.2635694, 127.0800083] },
+    { name: "서울", location: [37.5635694, 126.9800083], count: 0 },
+    { name: "제주", location: [33.485694444, 126.500333333], count: 0 },
+    { name: "전남", location: [34.8130444, 126.465], count: 0 },
+    { name: "전북", location: [35.81727, 127.11105277777777], count: 0 },
+    { name: "광주", location: [35.1569749999, 126.853363888], count: 0 },
+    { name: "경남", location: [35.234736111, 128.69416666666666], count: 0 },
+    { name: "경북", location: [36.399605555, 128.6027666], count: 0 },
+    { name: "울산", location: [35.5354083333, 129.313688], count: 0 },
+    { name: "대구", location: [35.86854166666, 128.60355277], count: 0 },
+    { name: "부산", location: [35.1770194444, 129.07695277], count: 0 },
+    { name: "충남", location: [36.3238722222, 126.922955555], count: 0 },
+    { name: "충북", location: [36.7325, 127.49358611111111], count: 0 },
+    { name: "세종", location: [36.4800121, 127.2890691], count: 0 },
+    { name: "대전", location: [36.347119444, 127.38656666], count: 0 },
+    { name: "인천", location: [37.4532333, 126.70735277], count: 0 },
+    { name: "강원", location: [37.742618, 128.270231], count: 0 },
+    { name: "경기", location: [37.2635694, 127.0800083], count: 0 },
   ]);
 
   const [sigungu, setSigungu] = useState([...defaultSigungu]);
   const [windowHeight, setWindowHeight] = useState<any>(window.innerHeight);
   let timerEnable = true;
   useEffect(() => {
+    getAllRooms(); //룸 정보 다 불러오기
     if (zoomLevel <= 5) {
       setZoomLevel(10);
       setTimeout(() => {
@@ -73,15 +74,32 @@ function MapCluster() {
     };
   }, []); //오버레이 버그 수정을 위한 지도 줌 새로고침
 
-  useEffect(() => {
-    if (sidoTarget) getRoomDatas();
-  }, [sidoTarget]);
+  // useEffect(() => {
+  //   if (sidoTarget) getRoomDatas();
+  // }, [sidoTarget]);
 
   useEffect(() => {
+    sidoCountSet();
     setDongPosition();
     sigunguCountSet();
   }, [roomDatas]);
 
+  const getAllRooms = async () => {
+    try {
+      const response = await axios.get(`${apiAddress}/review/room/all`);
+      setRoomDatas(response.data);
+      console.log(JSON.stringify(response));
+    } catch (error: any) {
+      const errorText = JSON.stringify(error);
+      dispatch(
+        setModal({
+          title: "에러!",
+          titleColor: "red",
+          text: errorText,
+        } as any)
+      );
+    }
+  };
   const getRoomDatas = async () => {
     try {
       const response = await axios.get(
@@ -117,6 +135,18 @@ function MapCluster() {
       );
     }
   };
+
+  const sidoCountSet = () => {
+    roomDatas.forEach((room: any) => {
+      const name = room.sido;
+      setSido((prev) =>
+        prev.map((sg) =>
+          sg.name === name ? { ...sg, count: sg.count + 1 } : sg
+        )
+      );
+    });
+  };
+
   const sigunguCountSet = () => {
     setSigungu([...defaultSigungu]); //카운트 초기화
     //시군구 counting
@@ -225,7 +255,7 @@ function MapCluster() {
           // 지도의 크기
           width: "100%",
           height: "50%",
-          boxShadow: "0px 10px 15px 0px rgba(0, 0, 0, 0.3582)",
+          boxShadow: "0px 5px 30px 0px rgba(0, 0, 0, 0.3582)",
         }}
         level={zoomLevel} // 지도의 확대 레벨
         onZoomChanged={(map) => {
@@ -242,15 +272,15 @@ function MapCluster() {
             } as any)
           );
         }}
-        onCenterChanged={(map) => {
-          if (timerEnable) {
-            getAddressInfo(map.getCenter().getLat(), map.getCenter().getLng());
-            timerEnable = false;
-            setTimeout(() => {
-              timerEnable = true;
-            }, 500);
-          }
-        }}
+        // onCenterChanged={(map) => {
+        //   if (timerEnable) {
+        //     getAddressInfo(map.getCenter().getLat(), map.getCenter().getLng());
+        //     timerEnable = false;
+        //     setTimeout(() => {
+        //       timerEnable = true;
+        //     }, 500);
+        //   }
+        // }}
         // onDragEnd={(map) => {
         //   console.log("ondragEnd");
         //   setTimeout(() => {
@@ -350,7 +380,8 @@ function MapCluster() {
                     : {}
                 }
               >
-                <div>{root.name}</div>
+                <div>{root.name}</div>{" "}
+                <div style={{ color: "red" }}>{root.count}</div>
               </CustomDiv>
             </CustomOverlayMap>
           ))}
@@ -468,7 +499,7 @@ const CustomDiv = styled.div`
   }
 `;
 const Notice = styled.div`
-  margin: 15px;
+  margin: 35px;
   font-size: 1.2rem;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3582);
   padding: 20px;
