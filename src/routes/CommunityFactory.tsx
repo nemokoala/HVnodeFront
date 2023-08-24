@@ -45,7 +45,7 @@ function CommunityFactory({ postData, setFixToggle }: any) {
       dispatch(
         setModal({
           title: "알림",
-          text: "글 제목은 2~50자리 사이로 입력해주세요.",
+          text: "글 제목은 2~50자 사이로 입력해주세요.",
         } as any)
       );
       return;
