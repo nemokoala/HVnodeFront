@@ -31,6 +31,18 @@ function ReviewDetail() {
   const dispatch = useDispatch();
   useEffect(() => {
     getReviewDetail();
+    const handleMessage = (event: any) => {
+      const data = event.data;
+      console.log(data);
+      alert(JSON.stringify(data));
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      // 컴포넌트가 언마운트되면 이벤트 리스너 제거
+      window.removeEventListener("message", handleMessage);
+    };
   }, []);
 
   useEffect(() => {
