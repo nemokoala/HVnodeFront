@@ -1,7 +1,9 @@
 let url;
+const localUrl = "http://localhost:8000";
+const publicUrl = "https://port-0-hvback-eg4e2alkfs490q.sel4.cloudtype.app";
 let dev = process.env.REACT_APP_ENV;
-if (dev === "development") url = "http://localhost:8000";
-else url = "https://port-0-hvback-eg4e2alkfs490q.sel4.cloudtype.app";
+if (dev === "development") url = localUrl;
+else url = publicUrl;
 export const apiAddress = url;
 
 export const sigungu = [

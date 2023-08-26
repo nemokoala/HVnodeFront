@@ -31,6 +31,7 @@ function MapCluster() {
   const dispatch = useDispatch<any>();
   const [dongs, setDongs] = useState<any>([]);
   const [sidoTarget, setSidoTarget] = useState("");
+  const [opacity, setOpacity] = useState(0.98);
   const [sido, setSido] = useState([
     { name: "서울", location: [37.5635694, 126.9800083], count: 0 },
     { name: "제주", location: [33.485694444, 126.500333333], count: 0 },
@@ -62,6 +63,11 @@ function MapCluster() {
         setZoomLevel(loadZoomLevel);
       }, 15);
     }
+
+    setTimeout(() => {
+      setOpacity(0.5);
+    }, 2000); //컨텐트 부분 투명하게
+
     document.documentElement.style.setProperty("--minHeight", `auto`);
     function handleResize() {
       //ios safari 하단바 문제 해결
@@ -83,6 +89,10 @@ function MapCluster() {
     setDongPosition();
     sigunguCountSet();
   }, [roomDatas]);
+
+  useEffect(() => {
+    if (reviewDatas?.length > 0) setOpacity(0.98);
+  }, [reviewDatas]);
 
   const getAllRooms = async () => {
     try {
@@ -124,6 +134,7 @@ function MapCluster() {
       const response = await axios.get(`${apiAddress}/review/search/${id}`);
       setReviewDatas(response.data);
       console.log(JSON.stringify(response));
+      setOpacity(0.98);
     } catch (error: any) {
       const errorText = JSON.stringify(error);
       dispatch(
@@ -254,7 +265,7 @@ function MapCluster() {
         style={{
           // 지도의 크기
           width: "100%",
-          height: "50%",
+          height: "100%",
           boxShadow: "0px 5px 30px 0px rgba(0, 0, 0, 0.3582)",
         }}
         level={zoomLevel} // 지도의 확대 레벨
@@ -460,7 +471,7 @@ function MapCluster() {
         <ZoomControl />
         <MapTypeControl position={kakao.maps.ControlPosition.TOPRIGHT} />
       </Map>
-      <ContentDiv>
+      <ContentDiv opacity={opacity}>
         {reviewDatas.length > 0 &&
           reviewDatas.map((review: any) => (
             <ReviewBlock key={review.id} review={review} />
@@ -499,7 +510,11 @@ const CustomDiv = styled.div`
   }
 `;
 const Notice = styled.div`
-  margin: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+  height: 50%;
   font-size: 1.2rem;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3582);
   padding: 20px;
@@ -512,17 +527,31 @@ const Notice = styled.div`
     cursor: pointer;
     transform: scale(1.03);
   }
+  @media screen and (min-width: 1000px) {
+    font-size: 1.5rem;
+  }
 `;
-const ContentDiv = styled.div`
+const ContentDiv = styled.div<any>`
+  filter: opacity(${(props) => props.opacity});
+  z-index: 100;
+  position: absolute;
+  top: 70%;
   width: 100%;
-  height: 50%;
+  height: 30%;
   overflow-y: scroll;
+  transition: all 1s;
   background: linear-gradient(
     to bottom,
     rgb(249, 254, 255),
     rgb(255, 250, 250),
     rgb(223, 236, 252)
   );
+  &:hover {
+    filter: opacity(0.98);
+  }
+  @media screen and (min-width: 1000px) {
+    width: 1000px;
+  }
 `;
 
 export default MapCluster;
