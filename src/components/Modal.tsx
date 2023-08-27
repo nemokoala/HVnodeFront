@@ -6,6 +6,7 @@ import { saveSession } from "slice/userSlice";
 function Modal({ ...props }: any) {
   const modal = useSelector((state: any) => state.modalSet.modal);
   const dispatch = useDispatch();
+  const session = useSelector((state: any) => state.userSet.session);
   /* 모달 modal 정리
   modal.isModalOpen<Boolean> : true 일경우 모달 창 표시
   modal.title : 맨위에 나타나는 큰 텍스트
@@ -21,8 +22,13 @@ function Modal({ ...props }: any) {
     };
   });
   useEffect(() => {
-    if (modal.text == "로그인 세션이 유효하지 않습니다. 다시 로그인 해주세요.")
+    if (
+      modal.text == "로그인 세션이 유효하지 않습니다. 다시 로그인 해주세요."
+    ) {
+      if (session.app)
+        (window as any).ReactNativeWebView.postMessage("세션만료");
       dispatch(saveSession("" as any));
+    }
   }, [modal]);
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
