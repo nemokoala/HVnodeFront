@@ -69,8 +69,6 @@ function App() {
       } catch (error: any) {
         if (error.response.status === 500)
           (window as any).ReactNativeWebView.postMessage("세션만료");
-        console.error("App.tsx(getUserData): " + JSON.stringify(error));
-        return "";
       }
     };
 
