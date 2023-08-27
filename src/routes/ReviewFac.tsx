@@ -37,7 +37,7 @@ function ReviewFac({ setReviewData }: any) {
   }, []);
 
   const checkNoLogin = () => {
-    if (!session) {
+    if (!session && !session.app) {
       dispatch(
         setModal({
           title: "알림",

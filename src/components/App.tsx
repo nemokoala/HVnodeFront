@@ -72,7 +72,7 @@ function App() {
       }
     };
 
-    (window as any).ReactNativeWebView.postMessage("번갑");
+    //(window as any).ReactNativeWebView.postMessage("번갑");
 
     window.addEventListener("message", handleMessage);
 
