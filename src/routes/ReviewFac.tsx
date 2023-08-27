@@ -32,18 +32,22 @@ function ReviewFac({ setReviewData }: any) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (!session) {
-        dispatch(
-          setModal({
-            title: "알림",
-            titleColor: "red",
-            text: "글을 작성하려면 로그인을 해주세요.",
-          } as any)
-        );
-        navigate("/login");
-      }
-    }, 500);
+      checkNoLogin();
+    }, 600);
   }, []);
+
+  const checkNoLogin = () => {
+    if (!session) {
+      dispatch(
+        setModal({
+          title: "알림",
+          titleColor: "red",
+          text: "글을 작성하려면 로그인을 해주세요.",
+        } as any)
+      );
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     if (selectedFile) {
