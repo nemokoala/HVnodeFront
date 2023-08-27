@@ -55,6 +55,7 @@ function App() {
     const handleMessage = (event: any) => {
       const session = event.data;
       if (session.id !== null) dispatch(saveSession(session as any));
+      if (session.id === 0) dispatch(saveSession("" as any));
       console.log(session);
     };
 
