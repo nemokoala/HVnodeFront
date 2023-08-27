@@ -50,6 +50,22 @@ function App() {
       }
     }
   };
+
+  useEffect(() => {
+    const handleMessage = (event: any) => {
+      const session = event.data;
+      if (session.id !== null) dispatch(saveSession(session as any));
+      console.log(session);
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      // 컴포넌트가 언마운트되면 이벤트 리스너 제거
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
+
   useEffect(() => {
     if (loadData) loadUserData();
   }, [loadData]);
