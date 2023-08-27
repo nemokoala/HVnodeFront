@@ -29,17 +29,23 @@ function ReviewFac({ setReviewData }: any) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fileInput = useRef<any>();
+
   useEffect(() => {
-    if (!session) {
-      dispatch(
-        setModal({
-          title: "알림",
-          titleColor: "red",
-          text: "글을 작성하려면 로그인을 해주세요.",
-        } as any)
-      );
-      navigate("/login");
-    }
+    setTimeout(() => {
+      if (!session) {
+        dispatch(
+          setModal({
+            title: "알림",
+            titleColor: "red",
+            text: "글을 작성하려면 로그인을 해주세요.",
+          } as any)
+        );
+        navigate("/login");
+      }
+    }, 500);
+  }, []);
+
+  useEffect(() => {
     if (selectedFile) {
       const reader = new FileReader();
 
