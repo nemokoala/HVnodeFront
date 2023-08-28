@@ -33,6 +33,7 @@ function ReviewFac({ setReviewData }: any) {
   const login = new URLSearchParams(location.search).get("login");
 
   useEffect(() => {
+    if (!session) (window as any).ReactNativeWebView.postMessage("비로그인");
     setTimeout(() => {
       checkNoLogin();
     }, 600);

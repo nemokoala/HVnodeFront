@@ -40,6 +40,10 @@ function Community() {
   }, []);
 
   useEffect(() => {
+    if (!session) (window as any).ReactNativeWebView.postMessage("비로그인");
+  }, [session]);
+
+  useEffect(() => {
     if (!searchResult) getPostingData();
     else if (searchResult) searching(page);
   }, [page]);
