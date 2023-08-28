@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./ReviewFac.module.css";
 import axios from "axios";
 import { apiAddress } from "value";
@@ -29,6 +29,8 @@ function ReviewFac({ setReviewData }: any) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fileInput = useRef<any>();
+  const location = useLocation();
+  const login = new URLSearchParams(location.search).get("login");
 
   useEffect(() => {
     setTimeout(() => {
@@ -37,16 +39,17 @@ function ReviewFac({ setReviewData }: any) {
   }, [session]);
 
   const checkNoLogin = () => {
-    if (!session && !session.app) {
-      dispatch(
-        setModal({
-          title: "알림",
-          titleColor: "red",
-          text: "글을 작성하려면 로그인을 해주세요.",
-        } as any)
-      );
-      navigate("/login");
-    }
+    if (login !== "true")
+      if (!session && !session.app) {
+        dispatch(
+          setModal({
+            title: "알림",
+            titleColor: "red",
+            text: "글을 작성하려면 로그인을 해주세요.",
+          } as any)
+        );
+        navigate("/login");
+      }
   };
 
   useEffect(() => {

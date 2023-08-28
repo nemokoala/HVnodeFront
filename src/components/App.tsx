@@ -11,7 +11,7 @@ function App() {
 
   let loadData = JSON.parse(localStorage.getItem("session") as any);
   let now = new Date();
-  let session = { id: 0 } as any;
+  let session = "" as any;
 
   const getUserData = async () => {
     try {
