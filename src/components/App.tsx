@@ -55,9 +55,9 @@ function App() {
   //웹뷰에서 세션 데이터 받기
   useEffect(() => {
     const handleMessage = async (event: any) => {
-      const session = JSON.parse(event.data);
+      const session = event.data;
       if (session.id !== null) dispatch(saveSession(session as any));
-      if (session.id === 0) dispatch(saveSession("" as any)); //앱에서 로그인 상태가 아닐 시
+      else if (session.id === 0) dispatch(saveSession("" as any)); //앱에서 로그인 상태가 아닐 시
       console.log(session);
 
       try {
