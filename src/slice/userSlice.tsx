@@ -9,7 +9,7 @@ export const userSlice = createSlice({
     saveSession: (state, action: any): any => {
       console.log("reducer : " + JSON.stringify(action.payload));
       const data = { ...action.payload, date: now };
-      if (action.payload.app === false)
+      if (!action.payload.app)
         localStorage.setItem("session", JSON.stringify(data)); //sessionstoarge에 저장
       if (action.payload === "") localStorage.removeItem("session"); // 값이 비면 세선 삭제
       state.session = action.payload;
