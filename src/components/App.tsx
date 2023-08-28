@@ -64,8 +64,8 @@ function App() {
       if (session.id === 0) {
         dispatch(saveSession("" as any)); //앱에서 로그인 상태가 아닐 시
       } else if (session.id !== null) {
-        dispatch(saveSession("" as any));
         dispatch(saveSession({ ...session } as any));
+        localStorage.removeItem("session");
       }
       console.log(session);
 
