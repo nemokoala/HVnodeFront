@@ -4,6 +4,7 @@ import AppRouter from "./Router";
 import { useDispatch } from "react-redux";
 import { saveSession } from "slice/userSlice";
 import { apiAddress, sessionTime } from "value";
+import { setModal } from "slice/modalSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -56,6 +57,13 @@ function App() {
   useEffect(() => {
     const handleMessage = async (event: any) => {
       const session = event.data;
+      dispatch(
+        setModal({
+          title: "알림",
+          titleColor: "red",
+          text: session,
+        } as any)
+      );
       if (session.id !== null) dispatch(saveSession(session as any));
       else if (session.id === 0) dispatch(saveSession("" as any)); //앱에서 로그인 상태가 아닐 시
       console.log(session);
