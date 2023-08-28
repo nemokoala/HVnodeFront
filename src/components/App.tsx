@@ -11,6 +11,7 @@ function App() {
 
   let loadData = JSON.parse(localStorage.getItem("session") as any);
   let now = new Date();
+  let session = { id: 0 } as any;
 
   const getUserData = async () => {
     try {
@@ -41,7 +42,8 @@ function App() {
       } else {
         let userData = await getUserData();
         console.log("유저데이터 ", userData);
-        if (userData !== "") dispatch(saveSession({ ...userData } as any));
+        if (userData !== "" && session.id !== 0)
+          dispatch(saveSession({ ...userData } as any));
         //만료되지 않았다면 localstorage정보를 redux에 업데이트
         else if (userData === "") dispatch(saveSession("" as any)); //만료되지 않았다면 localstorage정보를 redux에 업데이트
         setTimeout(() => {
@@ -56,10 +58,9 @@ function App() {
   //웹뷰에서 세션 데이터 받기
   useEffect(() => {
     const handleMessage = async (event: any) => {
-      const session = event.data;
+      session = event.data;
 
       if (session.id === 0) {
-        loadData = "";
         dispatch(saveSession("" as any)); //앱에서 로그인 상태가 아닐 시
       } else if (session.id !== null) dispatch(saveSession(session as any));
       console.log(session);
