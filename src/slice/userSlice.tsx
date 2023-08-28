@@ -7,7 +7,7 @@ export const userSlice = createSlice({
   },
   reducers: {
     saveSession: (state, action: any): any => {
-      console.log("reducer : " + JSON.stringify(action.payload));
+      alert("reducer : " + JSON.stringify(action.payload));
       const data = { ...action.payload, date: now };
       if (!action.payload.app)
         localStorage.setItem("session", JSON.stringify(data)); //sessionstoarge에 저장
