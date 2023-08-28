@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setModal } from "slice/modalSlice";
+import { saveSession } from "slice/userSlice";
 import styled, { keyframes } from "styled-components";
 import { apiAddress } from "value";
 
@@ -35,9 +36,44 @@ function Community() {
   const session = useSelector((state: any) => state.userSet.session);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  //웹뷰에서 세션 데이터 받기
   useEffect(() => {
     getPostingData();
+
+    const handleMessage = async (event: any) => {
+      const session = event.data;
+
+      if (session.id === 0) {
+        dispatch(saveSession("" as any)); //앱에서 로그인 상태가 아닐 시
+      } else if (session.id !== null)
+        dispatch(saveSession({ ...session } as any));
+      console.log(session);
+
+      try {
+        const response = await axios.get(`${apiAddress}/user/info`, {
+          headers: {
+            Authorization: session.token,
+          },
+        });
+      } catch (error: any) {
+        if (error.response.status === 500)
+          (window as any).ReactNativeWebView.postMessage("세션만료");
+      }
+    };
+
+    //   if (typeof (window as any).ReactNativeWebView !== "undefined") {
+    //     (window as any).ReactNativeWebView.postMessage("번갑");
+    // }
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      // 컴포넌트가 언마운트되면 이벤트 리스너 제거
+      window.removeEventListener("message", handleMessage);
+    };
   }, []);
+
   useEffect(() => {
     if (!searchResult) getPostingData();
     else if (searchResult) searching(page);
