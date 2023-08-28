@@ -34,7 +34,7 @@ function ReviewFac({ setReviewData }: any) {
     setTimeout(() => {
       checkNoLogin();
     }, 600);
-  }, []);
+  }, [session]);
 
   const checkNoLogin = () => {
     if (!session && !session.app) {
@@ -433,7 +433,8 @@ function ReviewFac({ setReviewData }: any) {
             onClick={() => uploadImage()}
             style={{ backgroundColor: sending ? "gray" : "" }}
           >
-            {!sending ? "작성 완료" : "작성 중..."}
+            {!sending ? session && "작성 완료" : session && "작성 중..."}
+            {!session && "로그인이 필요합니다"}
           </div>
           <div className={styles.mediumBtn} onClick={() => navigate("/review")}>
             취소
