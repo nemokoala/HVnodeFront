@@ -61,7 +61,7 @@ function App() {
         setModal({
           title: "알림",
           titleColor: "red",
-          text: session,
+          text: session.toString(),
         } as any)
       );
       if (session.id !== null) dispatch(saveSession(session as any));
