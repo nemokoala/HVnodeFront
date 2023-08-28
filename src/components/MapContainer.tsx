@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import React from "react";
 
-function MapContainer({ reviewData, nearBuildings }: any) {
+function MapContainer({ reviewData, nearBuildings, setNearBuildings }: any) {
   const [state, setState] = useState<any>({
     center: { lat: 33.452613, lng: 126.570888 },
     isPanto: false,
@@ -118,9 +118,9 @@ function MapContainer({ reviewData, nearBuildings }: any) {
         </CustomOverlayMap>
 
         {nearBuildings &&
-          nearBuildings.map((building: any) => (
+          nearBuildings.map((building: any, index: number) => (
             <React.Fragment key={building.place_url}>
-              {zoomLevel <= 3 && (
+              {(building.visible || zoomLevel <= 3) && (
                 <CustomOverlayMap
                   position={{
                     lat: building.y,
@@ -151,6 +151,14 @@ function MapContainer({ reviewData, nearBuildings }: any) {
                 position={{
                   lat: building.y,
                   lng: building.x,
+                }}
+                onClick={() => {
+                  const updatedBuildings = [...nearBuildings];
+                  updatedBuildings[index] = {
+                    ...updatedBuildings[index],
+                    visible: !updatedBuildings[index].visible,
+                  };
+                  setNearBuildings(updatedBuildings);
                 }}
               ></MapMarker>
             </React.Fragment>

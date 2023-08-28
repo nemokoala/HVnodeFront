@@ -25,6 +25,7 @@ function ReviewDetail() {
     ],
   });
   const [stars, setStars] = useState("");
+  const [showAlert, setShowAlert] = useState(1);
   const session = useSelector((state: any) => state.userSet.session);
   const params = useParams();
   const reviewId = params.id;
@@ -60,6 +61,10 @@ function ReviewDetail() {
   };
 
   const getNearBuilding = async (code: any) => {
+    setShowAlert((prev) => prev - 1);
+    setTimeout(() => {
+      setShowAlert(-11);
+    }, 5000);
     setCategoryGroup((prev) => {
       if (prev.now === code) return { ...prev, now: "" };
       else return { ...prev, now: code };
@@ -80,7 +85,12 @@ function ReviewDetail() {
         headers,
         params,
       });
-      setNearBuildings(response.data);
+
+      const buildings = response.data.documents.map((building: any) => ({
+        ...building,
+        visible: false,
+      }));
+      setNearBuildings(buildings);
       console.log("카테고리 " + JSON.stringify(response));
     } catch (error) {
       console.error(error);
@@ -147,7 +157,8 @@ function ReviewDetail() {
         <>
           <MapContainer
             reviewData={reviewData}
-            nearBuildings={nearBuildings?.documents}
+            nearBuildings={nearBuildings}
+            setNearBuildings={setNearBuildings}
           />
           <CategoryContainer>
             {categoryGroup.list.map((category: any, idx) => (
@@ -182,6 +193,10 @@ function ReviewDetail() {
               작성자 : {reviewData.nickname}#{reviewData.userId}
             </UserName>
           </CustomDiv>
+          <Alert opacity={showAlert < 1 && showAlert > -10 ? 1 : 0}>
+            파란색 마커를 클릭하거나 지도를 확대하면 해당 건물의 자세한 정보를
+            확인할 수 있습니다.
+          </Alert>
         </>
       )}
     </>
@@ -294,6 +309,27 @@ const CategoryContainer = styled.div`
   & div:hover {
     cursor: pointer;
     background: rgb(250, 241, 203);
+  }
+`;
+
+const Alert = styled.div<any>`
+  width: 90%;
+  top: 50%;
+  left: 50%;
+  padding: 10px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  position: fixed;
+  margin: 0 auto;
+  z-index: 150;
+  font-size: 1.3rem;
+  filter: opacity(${(props) => props.opacity});
+  transition: all 3s;
+  background-color: #238cfa;
+  border-radius: 30px;
+  color: white;
+  @media screen and (min-width: 1000px) {
+    width: 900px;
   }
 `;
 export default ReviewDetail;
