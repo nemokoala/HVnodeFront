@@ -217,11 +217,25 @@ function Register() {
       }
     } catch (error: any) {
       console.error(error);
+      dispatch(
+        setModal({
+          title: "에러!",
+          text: error?.response?.data || "알 수 없는 오류가 발생했습니다.",
+          titleColor: "red",
+        } as any)
+      );
     }
   };
 
   const kakaoOnFailure = (error: any) => {
     console.log(error);
+    dispatch(
+      setModal({
+        title: "에러!",
+        text: error?.response?.data || "알 수 없는 오류가 발생했습니다.",
+        titleColor: "red",
+      } as any)
+    );
   };
   return (
     <Container>
