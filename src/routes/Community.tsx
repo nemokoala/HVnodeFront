@@ -40,7 +40,9 @@ function Community() {
   }, []);
 
   useEffect(() => {
-    if (!session) (window as any).ReactNativeWebView.postMessage("비로그인");
+    if (!session)
+      if (typeof (window as any).ReactNativeWebView !== "undefined")
+        (window as any).ReactNativeWebView.postMessage("비로그인");
   }, [session]);
 
   useEffect(() => {
