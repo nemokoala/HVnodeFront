@@ -45,7 +45,6 @@ function Post() {
 
         // 예: swipeleft 이벤트에 대한 리스너 추가
         hammerInstance.on("swiperight", () => {
-          alert("swipe right");
           navigate(-1);
           if (typeof (window as any).ReactNativeWebView !== "undefined")
             (window as any).ReactNativeWebView.postMessage("swiperight");
