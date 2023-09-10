@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CommunityFactory from "routes/CommunityFactory";
 import { setModal } from "slice/modalSlice";
 import styled, { keyframes } from "styled-components";
 import { apiAddress } from "value";
+import Hammer from "hammerjs";
 
 function Post() {
   const params = useParams();
@@ -19,6 +20,7 @@ function Post() {
   const dispatch = useDispatch();
   const session = useSelector((state: any) => state.userSet.session);
   const modal = useSelector((state: any) => state.modalSet.modal);
+  const containerRef = useRef<any>(null);
   let enterEnable = true;
   // const example = {
   //   postId: 12,
@@ -34,6 +36,28 @@ function Post() {
   useEffect(() => {
     getPostDetail();
     getComment();
+
+    //앱 뒤로가기 관련
+
+    if (typeof (window as any).ReactNativeWebView !== "undefined") {
+      if (containerRef.current) {
+        const hammerInstance = new Hammer(containerRef.current);
+
+        // 예: swipeleft 이벤트에 대한 리스너 추가
+        hammerInstance.on("swiperight", () => {
+          alert("swipe right");
+          navigate(-1);
+          if (typeof (window as any).ReactNativeWebView !== "undefined")
+            (window as any).ReactNativeWebView.postMessage("swiperight");
+        });
+
+        // 컴포넌트 언마운트 시 hammer 인스턴스 제거
+        return () => {
+          hammerInstance.off("swiperight"); // 이벤트 리스너 제거
+          hammerInstance.destroy(); // 인스턴스 제거
+        };
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -311,7 +335,7 @@ function Post() {
     }
   };
   return (
-    <Container>
+    <Container ref={containerRef}>
       {postData ? (
         <>
           <ContentBlock>

@@ -84,8 +84,8 @@ function App() {
     //   if (typeof (window as any).ReactNativeWebView !== "undefined") {
     //     (window as any).ReactNativeWebView.postMessage("번갑");
     // }
-
-    window.addEventListener("message", handleMessage);
+    if (typeof (window as any).ReactNativeWebView !== "undefined")
+      window.addEventListener("message", handleMessage);
 
     return () => {
       // 컴포넌트가 언마운트되면 이벤트 리스너 제거
